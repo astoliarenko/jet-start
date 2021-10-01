@@ -11,15 +11,15 @@ export default class TopView extends JetView {
 
 		const ui = {
 			type: "clean",
-			paddingX: 5,
+			paddingX: 10,
+			paddingY: 10,
+			margin: 10,
 			css: "app_layout",
 			cols: [
 				{
-					paddingX: 5,
-					paddingY: 10,
 					rows: [{ css: "webix_shadow_medium", rows: [header, menu] }],
 				},
-				{ type: "wide", paddingY: 10, paddingX: 5, rows: [{ $subview: true }] },
+				{ type: "wide", rows: [{ $subview: true }] },
 			],
 		};
 

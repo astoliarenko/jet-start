@@ -3,20 +3,13 @@ import { countries } from "../models/countries";
 import { statuses } from "../models/statuses";
 
 export default class DataView extends JetView {
-	// config(){
-	// 	return { view:"datatable", autoConfig:true, css:"webix_shadow_medium" };
-	// }
-	// init(view){
-	// 	view.parse(data);
-	// }
 	config() {
 		const statusesDtLocalId = "statuses-dt";
 		const countriesDtLocalId = "countries-dt";
     
 		const countriesDt = {
 			// maxWidth: 500,
-			id: countriesDtLocalId,
-			// localId: countriesDtLocalId,
+			localId: countriesDtLocalId,
 			view: "datatable",
 			hover: "myHover",
 			data: countries,
@@ -51,8 +44,7 @@ export default class DataView extends JetView {
 		};
 
 		const statusesDt = {
-			// localId: statusesDtLocalId,
-			id: statusesDtLocalId,
+			localId: statusesDtLocalId,
 			view: "datatable",
 			hover: "myHover",
 			data: statuses,
@@ -95,13 +87,21 @@ export default class DataView extends JetView {
 			rows: [
 				{
 					view: "segmented",
-					id: "data-tabbar",
-					value: "countries-dt",
+					value: countriesDtLocalId,
 					multiview: true,
 					options: [
-						{ value: "Country", id: countriesDtLocalId },
-						{ value: "Status", id: statusesDtLocalId },
+						{ value: "Country", 
+							id: countriesDtLocalId
+						},
+						{ value: "Status", 
+							id: statusesDtLocalId
+					 },
 					],
+					on: {
+						onChange: (newId) => {
+							this.$$(newId).show();
+						}
+					}
 				},
 				{
 					cells: [countriesDt, statusesDt],
