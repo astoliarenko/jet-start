@@ -19,5 +19,6 @@ export default {
 	"Open" : "Open",
 	"RU" : "RU",
 	"EN" : "EN",
-	"from" : "from"
+	"from" : "from",
+	"not correct" : "not correct"
 };

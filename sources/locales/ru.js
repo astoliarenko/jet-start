@@ -19,5 +19,6 @@ export default {
 	"Open" : "Свободен",
 	"RU" : "Рус",
 	"EN" : "Англ",
-	"from" : "из"
+	"from" : "из",
+	"not correct" : "не допустимая"
 };

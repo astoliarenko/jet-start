@@ -1,13 +1,14 @@
 import { JetView } from "webix-jet";
 // import { contacts } from "../models/contacts";
-import FormView from "./form.js";
 import { contactsCollection, statusesCollection, countriesCollection } from "../models/collections";
+import { FormView, combo1Id, combo2Id } from "./form.js";
+const сontactsListLocalId = "contacts-list";
 
 export default class ContactsView extends JetView {
 	config() {
 		const _ = this.app.getService("locale")._;
 		const сontactsList = {
-			localId: "contacts-list",
+			localId: сontactsListLocalId,
 			view: "list",
 			template: (obj) => {
 				// return `<span class='webix_icon wxi-${statusesCollection.getItem(obj.Status).Icon} user-list-close'></span>` +
@@ -25,47 +26,44 @@ export default class ContactsView extends JetView {
 			on: {
 				onItemClick: (id) => {
 					const item = contactsCollection.getItem(id);
-					this.$$("contacts-form").setValues(item);
-					
-					// contactsCollection.updateItem(id, item);
+					this.getRoot().queryView("form").setValues(item);
+					this.setParam("id", id, true);
 					// console.dir(item);
 				}
 			}
 		};
-
-		const сontactsForm = new FormView(this.app);
+		// getContactsForm.bind(this);
 		const ui = {
-			cols: [сontactsList, сontactsForm],
+			cols: [сontactsList, new FormView(this.app)],
 		};
 
 		return ui;
 	}
-	init() {
+	init(view) {
 		// this.getRoot() = view здесь
-		this.$$("contacts-list").sync(contactsCollection);
+		this.$$(сontactsListLocalId).sync(contactsCollection);
 		contactsCollection.waitData.then(() => {
-			view.select(view.getFirstId());
+			const id = view.getFirstId();
+			view.select(id);
+			const data = contactsCollection.getItem(id);
+			view.queryView("form").setValues(data);
+			// this.$$(combo1Id).setValue(data.Country);
+			// this.$$(combo2Id).setValue(data.Status);
 		});
-	}
-	ready() {
-		const list = this.$$("contacts-list");
-		const firstId = list.getFirstId();
-		list.select(firstId);
 	}
 	urlChange() {
 		const id = this.getParam("id");
-		const list = this.$$("contacts-list");
-		console.log("id = ", id);
-		// console.dir(this.$$("contacts-list"));
-		if (id && this.$$("contacts-list").exists(id)) {
+		const list = this.$$(сontactsListLocalId);
+		const data = contactsCollection.getItem(id);
+		if (id && this.$$(сontactsListLocalId).exists(id)) {
 			const item = contactsCollection.getItem(id);
-			console.log("item",item);
-			console.log(this.$$("contacts-form"));
-			// this.$$("contacts-form").setValues(item);
+			this.getRoot().queryView("form").setValues(item);
+			list.select(id);
+			// console.log(this.getRoot().queryView("combo"));
+			// this.$$(combo1Id).setValue(data.Country);
+			// this.$$(combo2Id).setValue(data.Status);
 		} else {
 			this.setParam("id", 1, true);
-			// this.$$("contacts-form").setValues(item);
-			// list.select(list.getFirstId());
 		}
 	}
 }

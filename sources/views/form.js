@@ -1,9 +1,13 @@
 import { JetView } from "webix-jet";
-import { contactsCollection, statusesCollection, countriesCollection } from "../models/collections.js";
 
-export default class FormView extends JetView {
-	//list and form
+import { contactsCollection, statusesCollection, countriesCollection } from "../models/collections.js";
+export const combo1Id = "combo1";
+export const combo2Id = "combo2";
+
+
+export class FormView extends JetView {
 	config() {
+		const contactsFormLocalId = "contacts-form";
 		const _ = this.app.getService("locale")._;
 		const btnWidth = 100;
 
@@ -16,12 +20,17 @@ export default class FormView extends JetView {
 			value: _("Save"),
 			css: "webix_primary",
 			click: () => {
-				const values = this.getRoot().getValues();
-				// contactsCollection.updateItem(values.id, values);
-				console.dir(values);
+				const form = this.getRoot();
+				if (form.validate()) {
+					const values = form.getValues();
+					// const values = this.getValues();
+					contactsCollection.updateItem(values.id, values);
+					// console.dir();
+				}
+				
 			}
 		};
-
+		
 		const btnDelete = {
 			width: btnWidth,
 			view: "button",
@@ -29,17 +38,22 @@ export default class FormView extends JetView {
 			type: "form",
 			// value: "Delete",
 			value: _("Delete"),
-			// css: "webix_primary",
 			click: () => {
-				// const values = this.getRoot().getValues();
+				const form = this.getRoot();
+				const values = form.getValues();
 				// contactsCollection.updateItem(values.id, values);
-				this.getRoot().clear();
+				contactsCollection.remove(values.id);
+				form.clear();
+				form.clearValidation();
+				// this.$$(combo1Id).;
+				// и закрыть комбо
 			}
 		};
-
+		
 		const comboCountries = {
 			view: "combo", 
 			// label: "Contact",
+			id: combo1Id,
 			label: _("Country"),
 			// value: "Name",
 			suggest: {
@@ -50,9 +64,10 @@ export default class FormView extends JetView {
 			},
 			// options: contactsCollection
 		};
-
+		
 		const comboStatuses = {
-			view: "combo", 
+			view: "combo",
+			id: combo2Id,
 			// label: "Status",
 			label: _("Status"),
 			// value: "Name",
@@ -64,10 +79,10 @@ export default class FormView extends JetView {
 			},
 			// options: statusesCollection
 		};
-
-		const ContactsForm = {
+		
+		const form = {
 			view: "form",
-			localId: "contacts-form",
+			localId: contactsFormLocalId,
 			gravity: 0.5,
 			minWidth: 200,
 			data: contactsCollection,
@@ -82,6 +97,7 @@ export default class FormView extends JetView {
 							// localId: "",
 							name: "Name",
 							// invalidMessage: "Title must not be empty",
+							invalidMessage: _("not correct"),	
 						},
 						{
 							view: "text",
@@ -90,6 +106,7 @@ export default class FormView extends JetView {
 							// localId: "",
 							name: "Email",
 							// invalidMessage: "Title must not be empty",
+
 						},
 						comboCountries,
 						comboStatuses
@@ -100,12 +117,15 @@ export default class FormView extends JetView {
 				},
 				{}
 			],
+			rules: {
+				Email: (value) => {
+					console.log("test");
+					const reg = /\S+@\S+\.\S+/;
+					return reg.test(value);
+				}
+			}
 		};
 
-		return ContactsForm;
+		return form;
 	}
-	// init() {
-		// Use this.getRoot() to get to the top Webix widget inside a Jet class view.
-		// Use this.$$() to look for Webix widgets by their IDs inside the current Jet view
-	// }
 }
