@@ -1,6 +1,6 @@
 import { JetView } from "webix-jet";
-import { countries } from "../models/countries";
-import { statuses } from "../models/statuses";
+import { countriesCollection } from "../models/collections.js";
+import { statusesCollection } from "../models/collections.js";
 
 const statusesDtLocalId = "statuses-dt";
 const countriesDtLocalId = "countries-dt";
@@ -8,7 +8,7 @@ const countriesDtLocalId = "countries-dt";
 export default class DataView extends JetView {
 	config() {
 		
-		// const _ = this.app.getService("locale")._;
+		const _ = this.app.getService("locale")._;
 
 		const countriesDt = {
 			// maxWidth: 500,
@@ -22,8 +22,8 @@ export default class DataView extends JetView {
 			columns: [
 				{
 					id: "Name",
-					header: "Country",
-					// header: _("Country"),
+					// header: "Country",
+					header: _("Country"),
 					fillspace: true,
 					editor: "text"
 				},
@@ -37,7 +37,8 @@ export default class DataView extends JetView {
 			],
 			onClick: {
 				removeItemDatatable: function (e, id) {
-					this.remove(id);
+					// this.remove(id);
+					countriesCollection.remove(id);
 					return false;
 				},
 			},
@@ -59,15 +60,15 @@ export default class DataView extends JetView {
 				},
 				{
 					id: "Name",
-					header: "Name",
-					// header: _("Name"),
+					// header: "Name",
+					header: _("Name"),
 					fillspace: true,
 					editor: "text"
 				},
 				{
 					id: "Icon",
-					header: "Icon",
-					// header: _("Icon"),
+					// header: "Icon",
+					header: _("Icon"),
 					template: "<span class ='webix_icon wxi-#Icon#'></span>",
 				},
 				{
@@ -80,7 +81,8 @@ export default class DataView extends JetView {
 			],
 			onClick: {
 				removeItemDatatable: function (e, id) {
-					this.remove(id);
+					// this.remove(id);
+					statusesCollection.remove(id);
 					return false;
 				},
 			},
@@ -95,16 +97,17 @@ export default class DataView extends JetView {
 							maxWidth: 300,
 							value: countriesDtLocalId,
 							options: [
-								{ value: "Country", 
+								{ value: _("Country"), 
 									id: countriesDtLocalId
 								},
-								{ value: "Status", 
+								{ value: _("Status"), 
 									id: statusesDtLocalId
 								},
 							],
 							on: {
 								onChange: (newId) => {
 									this.$$(newId).show();
+									// console.log("ON");
 								}
 							}
 						},
@@ -113,10 +116,30 @@ export default class DataView extends JetView {
 				},
 				{
 					cells: [
+						// {
+						// 	rows: [
+						// 		countriesDt,
+						// 		{
+						// 			view: "button",
+						// 			label: _("Add"),
+						// 			// label: "Add",
+						// 			type: "form",
+						// 		},
+						// 	]
+						// },
+						// {
+						// 	rows: [
+						// 		statusesDt,
+						// 		{
+						// 			view: "button",
+						// 			label: _("Add"),
+						// 			// label: "Add",
+						// 			type: "form",
+						// 		},
+						// 	]
+						// }
 						countriesDt,
-						//добавить кнопку
-						statusesDt,
-						//добавить кнопку
+						statusesDt
 					],
 				},
 			],
@@ -125,7 +148,11 @@ export default class DataView extends JetView {
 		return dataMultiview;
 	}
 	init() {
-		this.$$(countriesDtLocalId).parse(countries);
-		this.$$(statusesDtLocalId).parse(statuses);
+		console.log("OPA");
+		this.$$(statusesDtLocalId).sync(statusesCollection);
+		this.$$(countriesDtLocalId).sync(countriesCollection);
+		// this.$$(statusesDtLocalId).parse(statuses);
+		// console.log(this.$$(statusesDtLocalId).data.order);
+		// this.$$(countriesDtLocalId).parse(countries);
 	}
 }

@@ -1,5 +1,7 @@
 export default {
 	"Contacts" : "Contacts",
+	"Contact" : "Contact",
+	"Edit info" : "Edit info",
 	"Data" : "Data",
 	"Settings" : "Settings",
 	"Statuses" : "Statuses",
@@ -15,4 +17,6 @@ export default {
 	"Icon" : "Icon",
 	"Busy" : "Busy",
 	"Open" : "Open",
+	"RU" : "RU",
+	"EN" : "EN"
 };

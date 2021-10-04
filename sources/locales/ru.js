@@ -1,5 +1,7 @@
 export default {
 	"Contacts" : "Контакты",
+	"Contact" : "Контакт",
+	"Edit info" : "Информация о контакте",
 	"Data" : "Данные",
 	"Settings" : "Настройки",
 	"Statuses" : "Статусы",
@@ -15,4 +17,6 @@ export default {
 	"Icon" : "Ярлык",
 	"Busy" : "Занят",
 	"Open" : "Свободен",
+	"RU" : "Рус",
+	"EN" : "Англ"
 };

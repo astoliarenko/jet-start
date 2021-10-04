@@ -4,7 +4,7 @@ import { contactsCollection, statusesCollection } from "../models/collections.js
 export default class FormView extends JetView {
 	//list and form
 	config() {
-		// const _ = this.app.getService("locale")._;
+		const _ = this.app.getService("locale")._;
 		const btnWidth = 100;
 
 		const btnSave = {
@@ -12,10 +12,13 @@ export default class FormView extends JetView {
 			view: "button",
 			// id: "btn-add-new-item",
 			type: "form",
-			value: "Save",
-			// value: _("Save"),
+			// value: "Save",
+			value: _("Save"),
 			css: "webix_primary",
-			// click: saveForm,
+			click: () => {
+				const values = this.getRoot().getValues();
+				contactsCollection.updateItem(values.id, values);
+			},
 		};
 
 		const btnDelete = {
@@ -23,26 +26,38 @@ export default class FormView extends JetView {
 			view: "button",
 			// id: "btn-add-new-item",
 			type: "form",
-			value: "Delete",
-			// value: _("Delete"),
+			// value: "Delete",
+			value: _("Delete"),
 			// css: "webix_primary",
 			// click: saveForm,
 		};
 
 		const comboContacts = {
-			view:"combo", 
-			label: "Contact",
-			// label: _("Contact"),
-			value:"Name",
-			options: contactsCollection
+			view: "combo", 
+			// label: "Contact",
+			label: _("Contact"),
+			// value: "Name",
+			suggest: {
+				data: contactsCollection,
+				body: {
+					template: "#Name#",
+				}
+			},
+			// options: contactsCollection
 		};
 
 		const comboStatuses = {
-			view:"combo", 
-			label: "Status",
-			// label: _("Status"),
-			value:"Name",
-			options: statusesCollection
+			view: "combo", 
+			// label: "Status",
+			label: _("Status"),
+			// value: "Name",
+			suggest: {
+				data: statusesCollection,
+				body: {
+					template: "#Name#",
+				}
+			},
+			// options: statusesCollection
 		};
 
 		const ContactsForm = {
@@ -52,21 +67,21 @@ export default class FormView extends JetView {
 			minWidth: 200,
 			data: contactsCollection,
 			elements: [
-				{ view: "template", template: "edit info", type: "section" },
+				{ view: "template", template: _("Edit info"), type: "section" },
 				{
 					rows: [
 						{
 							view: "text",
-							label: "Name",
-							// label: _("Name"),
+							// label: "Name",
+							label: _("Name"),
 							// localId: "",
 							name: "Name",
 							// invalidMessage: "Title must not be empty",
 						},
 						{
 							view: "text",
-							label: "Email",
-							// label: _("Email"),
+							// label: "Email",
+							label: _("Email"),
 							// localId: "",
 							name: "Email",
 							// invalidMessage: "Title must not be empty",

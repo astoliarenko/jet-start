@@ -1,7 +1,7 @@
 import { JetView } from "webix-jet";
 // import { contacts } from "../models/contacts";
 import FormView from "./form.js";
-import { contactsCollection } from "../models/collections";
+import { contactsCollection, statusesCollection } from "../models/collections";
 
 export default class ContactsView extends JetView {
 	config() {
@@ -11,6 +11,8 @@ export default class ContactsView extends JetView {
 			view: "list",
 			// data: contactsCollection,
 			template: "#Name# #Email#<span class='webix_icon wxi-close user-list-close'></span>",
+			//в список нужно еще подтянуть статус и страну, записывать  в значение их id (те цифру 1 а не Russia)
+			// брать из коллекции нужно ( из)
 			select: true,
 			onClick: {
 				"user-list-close": function (e, id) {
@@ -28,13 +30,9 @@ export default class ContactsView extends JetView {
 		return ui;
 	}
 	init(view) {
-		// view.$$("contacts-list").sync(contactsCollection);
-		// view.$$("contacts-list").sync(contactsCollection);
-		// view.$scope.app.webix.$$("contacts-list").sync(contactsCollection);
 		console.dir(view);
 		// this.getRoot() = view здесь
-		// view.queryView("list").parse(contactsCollection);
-		this.$$("contacts-list").parse(contactsCollection);
+		this.$$("contacts-list").sync(contactsCollection);
 	}
 	ready() {
 		const list = this.getRoot().queryView("list");
