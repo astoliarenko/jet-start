@@ -1,0 +1,18 @@
+export default {
+	"Contacts" : "Контакты",
+	"Data" : "Данные",
+	"Settings" : "Настройки",
+	"Statuses" : "Статусы",
+	"Countries" : "Страны",
+	"Status" : "Статус",
+	"Country" : "Страна",
+	"Save" : "Сохранить",
+	"Add" : "Добавить",
+	"Delete" : "Удалить",
+	"UserName" : "Имя пользователя",
+	"Email" : "Почта",
+	"Name" : "Имя",
+	"Icon" : "Ярлык",
+	"Busy" : "Занят",
+	"Open" : "Свободен",
+};

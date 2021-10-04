@@ -1,72 +1,44 @@
-import { JetView, plugins } from "webix-jet";
-import { contacts } from "../models/contacts";
+import { JetView } from "webix-jet";
+// import { contacts } from "../models/contacts";
+import FormView from "./form.js";
+import { contactsCollection } from "../models/collections";
 
 export default class ContactsView extends JetView {
-	//list and form
 	config() {
-		const btnWidth = 100;
-		const ContactsList = {
+		const сontactsList = {
 			// header: "Contacts list",
+			localId: "contacts-list",
 			view: "list",
-			data: contacts,
-			template: "#Name# #Email#",
-		};
-
-		const btnSave = {
-			width: btnWidth,
-			view: "button",
-			// id: "btn-add-new-item",
-			type: "form",
-			value: "Save",
-			css: "webix_primary",
-			// click: saveForm,
-		};
-
-		const btnDelete = {
-			width: btnWidth,
-			view: "button",
-			// id: "btn-add-new-item",
-			type: "form",
-			value: "Delete",
-			// css: "webix_primary",
-			// click: saveForm,
-		};
-
-		const ContactsForm = {
-			view: "form",
-			gravity: 0.5,
-			minWidth: 200,
-			elements: [
-				{ view: "template", template: "edit info", type: "section" },
-				{
-					rows: [
-						{
-							view: "text",
-							label: "Name",
-							// localId: "",
-							name: "Name",
-							// invalidMessage: "Title must not be empty",
-						},
-						{
-							view: "text",
-							label: "Email",
-							// localId: "",
-							name: "Email",
-							// invalidMessage: "Title must not be empty",
-						}
-					],
+			// data: contactsCollection,
+			template: "#Name# #Email#<span class='webix_icon wxi-close user-list-close'></span>",
+			select: true,
+			onClick: {
+				"user-list-close": function (e, id) {
+					contactsCollection.remove(id);
+					return false;
 				},
-				{
-					cols: [{}, btnSave, btnDelete, {}],
-				},
-				{}
-			],
+			}
 		};
 
+		const сontactsForm = new FormView(this.app);
 		const ui = {
-			cols: [ContactsList, ContactsForm],
+			cols: [сontactsList, сontactsForm],
 		};
 
 		return ui;
+	}
+	init(view) {
+		// view.$$("contacts-list").sync(contactsCollection);
+		// view.$$("contacts-list").sync(contactsCollection);
+		// view.$scope.app.webix.$$("contacts-list").sync(contactsCollection);
+		console.dir(view);
+		// this.getRoot() = view здесь
+		// view.queryView("list").parse(contactsCollection);
+		this.$$("contacts-list").parse(contactsCollection);
+	}
+	ready() {
+		const list = this.getRoot().queryView("list");
+		const firstId = list.getFirstId();
+		list.select(firstId);
 	}
 }

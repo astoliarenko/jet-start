@@ -2,30 +2,30 @@ import { JetView } from "webix-jet";
 import { countries } from "../models/countries";
 import { statuses } from "../models/statuses";
 
+const statusesDtLocalId = "statuses-dt";
+const countriesDtLocalId = "countries-dt";
+
 export default class DataView extends JetView {
 	config() {
-		const statusesDtLocalId = "statuses-dt";
-		const countriesDtLocalId = "countries-dt";
-    
+		
+		// const _ = this.app.getService("locale")._;
+
 		const countriesDt = {
 			// maxWidth: 500,
 			localId: countriesDtLocalId,
 			view: "datatable",
 			hover: "myHover",
-			data: countries,
+			// data: countries,
 			editable: true,
 			select: true,
 			scrollX: false,
 			columns: [
-				// {
-				//   id: "id",
-				//   header: "#",
-				//   width: 50,
-				// },
 				{
 					id: "Name",
 					header: "Country",
+					// header: _("Country"),
 					fillspace: true,
+					editor: "text"
 				},
 				{
 					id: "delete",
@@ -47,7 +47,7 @@ export default class DataView extends JetView {
 			localId: statusesDtLocalId,
 			view: "datatable",
 			hover: "myHover",
-			data: statuses,
+			// data: statuses,
 			editable: true,
 			select: true,
 			scrollX: false,
@@ -60,11 +60,14 @@ export default class DataView extends JetView {
 				{
 					id: "Name",
 					header: "Name",
+					// header: _("Name"),
 					fillspace: true,
+					editor: "text"
 				},
 				{
 					id: "Icon",
 					header: "Icon",
+					// header: _("Icon"),
 					template: "<span class ='webix_icon wxi-#Icon#'></span>",
 				},
 				{
@@ -86,32 +89,43 @@ export default class DataView extends JetView {
 		const dataMultiview = {
 			rows: [
 				{
-					view: "segmented",
-					value: countriesDtLocalId,
-					multiview: true,
-					options: [
-						{ value: "Country", 
-							id: countriesDtLocalId
+					cols: [
+						{
+							view: "tabbar",
+							maxWidth: 300,
+							value: countriesDtLocalId,
+							options: [
+								{ value: "Country", 
+									id: countriesDtLocalId
+								},
+								{ value: "Status", 
+									id: statusesDtLocalId
+								},
+							],
+							on: {
+								onChange: (newId) => {
+									this.$$(newId).show();
+								}
+							}
 						},
-						{ value: "Status", 
-							id: statusesDtLocalId
-					 },
-					],
-					on: {
-						onChange: (newId) => {
-							this.$$(newId).show();
-						}
-					}
+						{}
+					]
 				},
 				{
-					cells: [countriesDt, statusesDt],
+					cells: [
+						countriesDt,
+						//добавить кнопку
+						statusesDt,
+						//добавить кнопку
+					],
 				},
 			],
 		};
 
 		return dataMultiview;
 	}
-	// init(view) {
-	//   console.log(view);
-	// }
+	init() {
+		this.$$(countriesDtLocalId).parse(countries);
+		this.$$(statusesDtLocalId).parse(statuses);
+	}
 }

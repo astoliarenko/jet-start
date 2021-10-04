@@ -1,0 +1,18 @@
+export default {
+	"Contacts" : "Contacts",
+	"Data" : "Data",
+	"Settings" : "Settings",
+	"Statuses" : "Statuses",
+	"Countries" : "Countries",
+	"Status" : "Status",
+	"Country" : "Country",
+	"Save" : "Save",
+	"Add" : "Add",
+	"Delete" : "Delete",
+	"UserName" : "UserName",
+	"Email" : "Email",
+	"Name" : "Name",
+	"Icon" : "Icon",
+	"Busy" : "Busy",
+	"Open" : "Open",
+};
