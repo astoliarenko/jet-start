@@ -15,7 +15,6 @@ export default class DataView extends JetView {
 			localId: countriesDtLocalId,
 			view: "datatable",
 			hover: "myHover",
-			// data: countries,
 			editable: true,
 			select: true,
 			scrollX: false,
@@ -37,7 +36,6 @@ export default class DataView extends JetView {
 			],
 			onClick: {
 				removeItemDatatable: function (e, id) {
-					// this.remove(id);
 					countriesCollection.remove(id);
 					return false;
 				},
@@ -48,7 +46,6 @@ export default class DataView extends JetView {
 			localId: statusesDtLocalId,
 			view: "datatable",
 			hover: "myHover",
-			// data: statuses,
 			editable: true,
 			select: true,
 			scrollX: false,
@@ -62,6 +59,9 @@ export default class DataView extends JetView {
 					id: "Name",
 					// header: "Name",
 					header: _("Name"),
+					template: (obj) => {
+						return _(obj.Name);
+					},
 					fillspace: true,
 					editor: "text"
 				},
@@ -81,7 +81,6 @@ export default class DataView extends JetView {
 			],
 			onClick: {
 				removeItemDatatable: function (e, id) {
-					// this.remove(id);
 					statusesCollection.remove(id);
 					return false;
 				},
@@ -116,28 +115,6 @@ export default class DataView extends JetView {
 				},
 				{
 					cells: [
-						// {
-						// 	rows: [
-						// 		countriesDt,
-						// 		{
-						// 			view: "button",
-						// 			label: _("Add"),
-						// 			// label: "Add",
-						// 			type: "form",
-						// 		},
-						// 	]
-						// },
-						// {
-						// 	rows: [
-						// 		statusesDt,
-						// 		{
-						// 			view: "button",
-						// 			label: _("Add"),
-						// 			// label: "Add",
-						// 			type: "form",
-						// 		},
-						// 	]
-						// }
 						countriesDt,
 						statusesDt
 					],
@@ -148,11 +125,7 @@ export default class DataView extends JetView {
 		return dataMultiview;
 	}
 	init() {
-		console.log("OPA");
 		this.$$(statusesDtLocalId).sync(statusesCollection);
 		this.$$(countriesDtLocalId).sync(countriesCollection);
-		// this.$$(statusesDtLocalId).parse(statuses);
-		// console.log(this.$$(statusesDtLocalId).data.order);
-		// this.$$(countriesDtLocalId).parse(countries);
 	}
 }

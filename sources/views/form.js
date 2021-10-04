@@ -1,5 +1,5 @@
 import { JetView } from "webix-jet";
-import { contactsCollection, statusesCollection } from "../models/collections.js";
+import { contactsCollection, statusesCollection, countriesCollection } from "../models/collections.js";
 
 export default class FormView extends JetView {
 	//list and form
@@ -17,8 +17,9 @@ export default class FormView extends JetView {
 			css: "webix_primary",
 			click: () => {
 				const values = this.getRoot().getValues();
-				contactsCollection.updateItem(values.id, values);
-			},
+				// contactsCollection.updateItem(values.id, values);
+				console.dir(values);
+			}
 		};
 
 		const btnDelete = {
@@ -29,16 +30,20 @@ export default class FormView extends JetView {
 			// value: "Delete",
 			value: _("Delete"),
 			// css: "webix_primary",
-			// click: saveForm,
+			click: () => {
+				// const values = this.getRoot().getValues();
+				// contactsCollection.updateItem(values.id, values);
+				this.getRoot().clear();
+			}
 		};
 
-		const comboContacts = {
+		const comboCountries = {
 			view: "combo", 
 			// label: "Contact",
-			label: _("Contact"),
+			label: _("Country"),
 			// value: "Name",
 			suggest: {
-				data: contactsCollection,
+				data: countriesCollection,
 				body: {
 					template: "#Name#",
 				}
@@ -86,7 +91,7 @@ export default class FormView extends JetView {
 							name: "Email",
 							// invalidMessage: "Title must not be empty",
 						},
-						comboContacts,
+						comboCountries,
 						comboStatuses
 					],
 				},
@@ -99,15 +104,8 @@ export default class FormView extends JetView {
 
 		return ContactsForm;
 	}
-	init(view) {
-		view.parse(contactsCollection);
-		// view.sync(contactsCollection);
-		contactsCollection.waitData.then(() => {
-			view.select(view.getFirstId());
-		});
-		// this.$$("contacts-form").sync(contactsCollection);
-		// this.getRoot().queryView("form").sync(contactsCollection);
+	// init() {
 		// Use this.getRoot() to get to the top Webix widget inside a Jet class view.
 		// Use this.$$() to look for Webix widgets by their IDs inside the current Jet view
-	}
+	// }
 }

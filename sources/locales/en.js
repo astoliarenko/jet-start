@@ -18,5 +18,6 @@ export default {
 	"Busy" : "Busy",
 	"Open" : "Open",
 	"RU" : "RU",
-	"EN" : "EN"
+	"EN" : "EN",
+	"from" : "from"
 };
