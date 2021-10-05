@@ -15,11 +15,10 @@ export default class ContactsView extends JetView {
 				const country = countriesCollection.getItem(obj.Country);
 				const status = statusesCollection.getItem(obj.Status);
 				// return `<span class='webix_icon wxi-${statusesCollection.getItem(obj.Status).Icon} user-list-close'></span>
-				// return `${_(statusesCollection.getItem(obj.Status).Name)}
-				// : ${obj.Name} ${obj.Email} ${_("from")} ${countriesCollection.getItem(obj.Country).Name}
-				return `${_(status?status.Name:"Unknown status")}
-				: ${obj.Name} ${obj.Email} ${_("from")} ${country?country.Name:"unknown lands"}
-				<span class='webix_icon wxi-close user-list-close'></span>`;
+				const contactsInfo = `${_(status?status.Name:"Unknown status")}
+				: ${obj.Name} ${obj.Email} ${_("from")} ${country?country.Name:"unknown lands"}`;
+
+				return `${contactsInfo}<span class='webix_icon wxi-close user-list-close'></span>`;
 			},
 			select: true,
 			onClick: {
@@ -31,7 +30,7 @@ export default class ContactsView extends JetView {
 			on: {
 				onItemClick: (id) => {
 					const item = contactsCollection.getItem(id);
-					this.getRoot().queryView("form").setValues(item);
+					this.app.callEvent("setFormValue", [item]);
 					this.setParam("id", id, true);
 					// console.dir(item);
 				}
@@ -55,13 +54,10 @@ export default class ContactsView extends JetView {
 	urlChange() {
 		const id = this.getParam("id");
 		const list = this.$$(сontactsListLocalId);
-		const data = contactsCollection.getItem(id);
 		if (id && list.exists(id)) {
 			const item = contactsCollection.getItem(id);
 			list.select(id);
 			this.app.callEvent("setFormValue", [item]);
-			this.app.callEvent("setValueCombo1", [data.Country]);
-			this.app.callEvent("setValueCombo2", [data.Status]);
 		} else {
 			// console.log("ELSE");
 			this.setParam("id", 1, true);
