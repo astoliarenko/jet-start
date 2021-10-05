@@ -62,6 +62,12 @@ export class FormView extends JetView {
 					template: "#Name#",
 				}
 			},
+			on: {
+				"Combo1Select": (value) => {
+					console.log("COMBO1 was changed");
+					this.$$(combo1Id).setValue(value[0]);
+				}
+			}
 			// options: contactsCollection
 		};
 		
@@ -77,6 +83,11 @@ export class FormView extends JetView {
 					template: "#Name#",
 				}
 			},
+			on: {
+				"Combo2Select": (value) => {
+					this.$$(combo2Id).setValue(value[0]);
+				}
+			}
 			// options: statusesCollection
 		};
 		

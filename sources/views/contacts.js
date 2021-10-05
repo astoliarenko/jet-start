@@ -62,8 +62,12 @@ export default class ContactsView extends JetView {
 			// console.log(this.getRoot().queryView("combo"));
 			// this.$$(combo1Id).setValue(data.Country);
 			// this.$$(combo2Id).setValue(data.Status);
+			this.app.callEvent("Combo1Select", [data.Country]);
+			this.app.callEvent("Combo2Select", [data.Status]);
 		} else {
 			this.setParam("id", 1, true);
+			// this.app.callEvent("Combo1Select", [0]);
+			// this.app.callEvent("Combo2Select", [0]);
 		}
 	}
 }
