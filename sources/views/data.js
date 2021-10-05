@@ -1,9 +1,7 @@
 import { JetView } from "webix-jet";
 import { countriesCollection } from "../models/collections.js";
 import { statusesCollection } from "../models/collections.js";
-
-const statusesDtLocalId = "statuses-dt";
-const countriesDtLocalId = "countries-dt";
+import constants from "../constants.js";
 
 export default class DataView extends JetView {
 	config() {
@@ -12,7 +10,7 @@ export default class DataView extends JetView {
 
 		const countriesDt = {
 			// maxWidth: 500,
-			localId: countriesDtLocalId,
+			localId: constants.DATA_VIEW_IDS.COUNTRIES_DT_ID,
 			view: "datatable",
 			hover: "myHover",
 			editable: true,
@@ -43,7 +41,7 @@ export default class DataView extends JetView {
 		};
 
 		const statusesDt = {
-			localId: statusesDtLocalId,
+			localId: constants.DATA_VIEW_IDS.STATUSES_DT_ID,
 			view: "datatable",
 			hover: "myHover",
 			editable: true,
@@ -92,13 +90,13 @@ export default class DataView extends JetView {
 						{
 							view: "tabbar",
 							maxWidth: 300,
-							value: countriesDtLocalId,
+							value: constants.DATA_VIEW_IDS.COUNTRIES_DT_ID,
 							options: [
 								{ value: _("Country"), 
-									id: countriesDtLocalId
+									id: constants.DATA_VIEW_IDS.COUNTRIES_DT_ID
 								},
 								{ value: _("Status"), 
-									id: statusesDtLocalId
+									id: constants.DATA_VIEW_IDS.STATUSES_DT_ID
 								},
 							],
 							on: {
@@ -123,7 +121,7 @@ export default class DataView extends JetView {
 		return dataMultiview;
 	}
 	init() {
-		this.$$(statusesDtLocalId).sync(statusesCollection);
-		this.$$(countriesDtLocalId).sync(countriesCollection);
+		this.$$(constants.DATA_VIEW_IDS.STATUSES_DT_ID).sync(statusesCollection);
+		this.$$(constants.DATA_VIEW_IDS.COUNTRIES_DT_ID).sync(countriesCollection);
 	}
 }
