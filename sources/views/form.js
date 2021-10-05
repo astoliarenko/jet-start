@@ -53,7 +53,8 @@ export class FormView extends JetView {
 		const comboCountries = {
 			view: "combo", 
 			// label: "Contact",
-			id: combo1Id,
+			localId: combo1Id,
+			// id: combo1Id,
 			label: _("Country"),
 			// value: "Name",
 			suggest: {
@@ -62,18 +63,25 @@ export class FormView extends JetView {
 					template: "#Name#",
 				}
 			},
-			on: {
-				"Combo1Select": (value) => {
-					console.log("COMBO1 was changed");
-					this.$$(combo1Id).setValue(value[0]);
-				}
+			// on: {
+			// 	"Combo1Select": (value) => {
+			// 		console.log("COMBO1 was changed");
+			// 		this.$$(combo1Id).setValue(value[0]);
+			// 	}
+			// }
+			$init: () => {
+				this.on(this.app, "Combo1Select", (value) => {
+					// this.$$(combo1Id).config.value = value;
+					this.$$(combo1Id).setValue(value);
+				});
 			}
 			// options: contactsCollection
 		};
 		
 		const comboStatuses = {
 			view: "combo",
-			id: combo2Id,
+			// id: combo2Id,
+			localId: combo2Id,
 			// label: "Status",
 			label: _("Status"),
 			// value: "Name",
@@ -83,10 +91,16 @@ export class FormView extends JetView {
 					template: "#Name#",
 				}
 			},
-			on: {
-				"Combo2Select": (value) => {
-					this.$$(combo2Id).setValue(value[0]);
-				}
+			// on: {
+			// 	"Combo2Select": (value) => {
+			// 		this.$$(combo2Id).setValue(value[0]);
+			// 	}
+			// }
+			$init: () => {
+				this.on(this.app, "Combo2Select", (value) => {
+					// this.$$(combo1Id).config.value = value;
+					this.$$(combo2Id).setValue(value);
+				});
 			}
 			// options: statusesCollection
 		};
