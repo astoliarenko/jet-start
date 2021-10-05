@@ -41,12 +41,24 @@ export default class ContactsView extends JetView {
 
 		return ui;
 	}
-	init(view) {
+	init() {
 		// this.getRoot() = view здесь
-		this.$$(constants.CONTACTS_LIST_VIEW_ID).sync(contactsCollection);
+		const list = this.$$(constants.CONTACTS_LIST_VIEW_ID);
+		list.sync(contactsCollection);
 		contactsCollection.waitData.then(() => {
-			const id = view.getFirstId();
-			view.select(id);
+			const prevId = this.getParam("id");
+			if (prevId && list.exists(prevId)) {
+				list.select(prevId);
+			} else {
+				const id = list.getFirstId();
+				list.select(id);
+				this.show(`/top/contacts?id=${id}`);
+				// console.log("select");
+			}
+		});
+		this.on(this.app, constants.WEBIX_EVENTS.UNSELECT_LIST_ITEMS, () => {
+			list.unselectAll();
+			this.show("/top/contacts");
 		});
 	}
 	urlChange() {
@@ -55,10 +67,7 @@ export default class ContactsView extends JetView {
 		if (id && list.exists(id)) {
 			const item = contactsCollection.getItem(id);
 			list.select(id);
-			this.app.callEvent("setFormValue", [item]);
-		} else {
-			// console.log("ELSE");
-			this.setParam("id", 1, true);
-		}
+			this.app.callEvent(constants.WEBIX_EVENTS.SET_FORM_VALUE, [item]);
+		}	
 	}
 }

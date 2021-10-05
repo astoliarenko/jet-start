@@ -18,25 +18,30 @@ export default class FormView extends JetView {
 			css: "webix_primary",
 			click: () => {
 				const form = this.getRoot();
+				const values = form.getValues();
 				if (form.validate()) {
-					const values = form.getValues();
-					contactsCollection.updateItem(values.id, values);
+					if (values.id) {
+						contactsCollection.updateItem(values.id, values);
+					} else {
+						contactsCollection.add(values);
+					}
 				}
 			}
 		};
 		
-		const btnDelete = {
+		const btnClear = {
 			width: defBtnWidth,
 			view: "button",
 			// id: "btn-add-new-item",
 			type: "form",
 			// value: "Delete",
-			value: _("Delete"),
+			value: _("Clear"),
 			click: () => {
 				const form = this.getRoot();
 				const values = form.getValues();
 				// contactsCollection.updateItem(values.id, values);
-				contactsCollection.remove(values.id);
+				//анселектнуть все
+				this.app.callEvent(constants.WEBIX_EVENTS.UNSELECT_LIST_ITEMS);
 				form.clear();
 				form.clearValidation();
 			}
@@ -103,7 +108,7 @@ export default class FormView extends JetView {
 					],
 				},
 				{
-					cols: [{}, btnSave, btnDelete,{}],
+					cols: [{}, btnSave, btnClear,{}],
 				},
 				{}
 			],
@@ -119,7 +124,7 @@ export default class FormView extends JetView {
 		return form;
 	}
 	init() {
-		this.on(this.app, "setFormValue", (value) => {
+		this.on(this.app, constants.WEBIX_EVENTS.SET_FORM_VALUE, (value) => {
 			this.$$(constants.CONTACTS_FORM_VIEW_IDS.FORM_ID).setValues(value);
 		});
 	}

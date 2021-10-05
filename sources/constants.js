@@ -8,5 +8,9 @@ export default {
 	"DATA_VIEW_IDS" : {
 		"STATUSES_DT_ID": "statuses-dt",
 		"COUNTRIES_DT_ID": "countries-dt"
+	},
+	"WEBIX_EVENTS" : {
+		"UNSELECT_LIST_ITEMS" : "unselectListItems",
+		"SET_FORM_VALUE" : "setFormValue"
 	}
 };

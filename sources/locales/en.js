@@ -11,6 +11,7 @@ export default {
 	"Save" : "Save",
 	"Add" : "Add",
 	"Delete" : "Delete",
+	"Clear" : "Clear",
 	"UserName" : "UserName",
 	"Email" : "Email",
 	"Name" : "Name",
