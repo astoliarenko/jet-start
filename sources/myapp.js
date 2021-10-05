@@ -1,5 +1,5 @@
 import "./styles/app.css";
-import { JetApp, EmptyRouter, HashRouter, JetView, plugins } from "webix-jet";
+import { JetApp, EmptyRouter, HashRouter, plugins } from "webix-jet";
 // import { contactsCollection } from "./models/collections";
 
 export default class MyApp extends JetApp {

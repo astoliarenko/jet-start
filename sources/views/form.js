@@ -22,14 +22,10 @@ export class FormView extends JetView {
 			click: () => {
 				const form = this.getRoot();
 				if (form.validate()) {
-					let values = form.getValues();
+					const values = form.getValues();
 					values.Country = this.$$(combo1Id).config.value;
 					values.Status = this.$$(combo2Id).config.value;
-					// console.dir(this.$$(combo1Id));
-					//получить данные из боксов и передать их в коллекцию
-					// const values = this.getValues();
 					contactsCollection.updateItem(values.id, values);
-					// console.dir();
 				}
 			}
 		};
@@ -66,23 +62,9 @@ export class FormView extends JetView {
 					template: "#Name#",
 				}
 			},
-			// on: {
-			// 	"Combo1Select": (value) => {
-			// 		console.log("COMBO1 was changed");
-			// 		this.$$(combo1Id).setValue(value[0]);
-			// 	}
-			// }
 			$init: () => {
 				this.on(this.app, "setValueCombo1", (value) => {
-					// this.$$(combo1Id).config.value = value;
-					//проверить есть ли вообще такое value в коллекции
-					// if(countriesCollection.getItem(value).Name) {
-						this.$$(combo1Id).setValue(value);
-					// }
-						// console.log(countriesCollection.getItem(value).Name);
-						// countriesCollection.getItem(value).Name
-					// }
-					
+					this.$$(combo1Id).setValue(value);
 				});
 			}
 			// options: contactsCollection
@@ -101,14 +83,8 @@ export class FormView extends JetView {
 					template: "#Name#",
 				}
 			},
-			// on: {
-			// 	"Combo2Select": (value) => {
-			// 		this.$$(combo2Id).setValue(value[0]);
-			// 	}
-			// }
 			$init: () => {
 				this.on(this.app, "setValueCombo2", (value) => {
-					// this.$$(combo1Id).config.value = value;
 					this.$$(combo2Id).setValue(value);
 				});
 			}
@@ -132,7 +108,6 @@ export class FormView extends JetView {
 							// localId: "",
 							name: "Name",
 							// invalidMessage: "Title must not be empty",
-							invalidMessage: _("not correct"),	
 						},
 						{
 							view: "text",
@@ -140,7 +115,7 @@ export class FormView extends JetView {
 							label: _("Email"),
 							// localId: "",
 							name: "Email",
-							// invalidMessage: "Title must not be empty",
+							invalidMessage: _("not correct")
 
 						},
 						comboCountries,
@@ -161,8 +136,6 @@ export class FormView extends JetView {
 			},
 			$init: () => {
 				this.on(this.app, "setFormValue", (value) => {
-					// this.$$(combo1Id).config.value = value;
-					// console.log(this.$$(contactsFormLocalId));
 					this.$$(contactsFormLocalId).setValues(value);
 				});
 			}

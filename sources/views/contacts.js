@@ -1,7 +1,7 @@
 import { JetView } from "webix-jet";
 // import { contacts } from "../models/contacts";
 import { contactsCollection, statusesCollection, countriesCollection } from "../models/collections";
-import { FormView, combo1Id, combo2Id } from "./form.js";
+import { FormView } from "./form.js";
 const сontactsListLocalId = "contacts-list";
 
 export default class ContactsView extends JetView {
