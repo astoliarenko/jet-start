@@ -11,9 +11,14 @@ export default class ContactsView extends JetView {
 			localId: сontactsListLocalId,
 			view: "list",
 			template: (obj) => {
+
+				const country = countriesCollection.getItem(obj.Country);
+				const status = statusesCollection.getItem(obj.Status);
 				// return `<span class='webix_icon wxi-${statusesCollection.getItem(obj.Status).Icon} user-list-close'></span>
-				return `${_(statusesCollection.getItem(obj.Status).Name)}
-				: ${obj.Name} ${obj.Email} ${_("from")} ${countriesCollection.getItem(obj.Country).Name}
+				// return `${_(statusesCollection.getItem(obj.Status).Name)}
+				// : ${obj.Name} ${obj.Email} ${_("from")} ${countriesCollection.getItem(obj.Country).Name}
+				return `${_(status?status.Name:"Unknown status")}
+				: ${obj.Name} ${obj.Email} ${_("from")} ${country?country.Name:"unknown lands"}
 				<span class='webix_icon wxi-close user-list-close'></span>`;
 			},
 			select: true,
@@ -45,10 +50,6 @@ export default class ContactsView extends JetView {
 		contactsCollection.waitData.then(() => {
 			const id = view.getFirstId();
 			view.select(id);
-			const data = contactsCollection.getItem(id);
-			view.queryView("form").setValues(data);
-			// this.$$(combo1Id).setValue(data.Country);
-			// this.$$(combo2Id).setValue(data.Status);
 		});
 	}
 	urlChange() {
@@ -57,17 +58,13 @@ export default class ContactsView extends JetView {
 		const data = contactsCollection.getItem(id);
 		if (id && list.exists(id)) {
 			const item = contactsCollection.getItem(id);
-			this.getRoot().queryView("form").setValues(item);
 			list.select(id);
-			// console.log(this.getRoot().queryView("combo"));
-			// this.$$(combo1Id).setValue(data.Country);
-			// this.$$(combo2Id).setValue(data.Status);
-			this.app.callEvent("Combo1Select", [data.Country]);
-			this.app.callEvent("Combo2Select", [data.Status]);
+			this.app.callEvent("setFormValue", [item]);
+			this.app.callEvent("setValueCombo1", [data.Country]);
+			this.app.callEvent("setValueCombo2", [data.Status]);
 		} else {
+			// console.log("ELSE");
 			this.setParam("id", 1, true);
-			// this.app.callEvent("Combo1Select", [0]);
-			// this.app.callEvent("Combo2Select", [0]);
 		}
 	}
 }

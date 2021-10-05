@@ -20,5 +20,7 @@ export default {
 	"RU" : "RU",
 	"EN" : "EN",
 	"from" : "from",
-	"not correct" : "not correct"
+	"not correct" : "not correct",
+	"unknown lands" : "unknown lands",
+	"Unknown status" : "Unknown status"
 };

@@ -22,12 +22,15 @@ export class FormView extends JetView {
 			click: () => {
 				const form = this.getRoot();
 				if (form.validate()) {
-					const values = form.getValues();
+					let values = form.getValues();
+					values.Country = this.$$(combo1Id).config.value;
+					values.Status = this.$$(combo2Id).config.value;
+					// console.dir(this.$$(combo1Id));
+					//получить данные из боксов и передать их в коллекцию
 					// const values = this.getValues();
 					contactsCollection.updateItem(values.id, values);
 					// console.dir();
 				}
-				
 			}
 		};
 		
@@ -45,8 +48,8 @@ export class FormView extends JetView {
 				contactsCollection.remove(values.id);
 				form.clear();
 				form.clearValidation();
-				// this.$$(combo1Id).;
-				// и закрыть комбо
+				this.app.callEvent("setValueCombo1", [0]);
+				this.app.callEvent("setValueCombo2", [0]);
 			}
 		};
 		
@@ -70,9 +73,16 @@ export class FormView extends JetView {
 			// 	}
 			// }
 			$init: () => {
-				this.on(this.app, "Combo1Select", (value) => {
+				this.on(this.app, "setValueCombo1", (value) => {
 					// this.$$(combo1Id).config.value = value;
-					this.$$(combo1Id).setValue(value);
+					//проверить есть ли вообще такое value в коллекции
+					// if(countriesCollection.getItem(value).Name) {
+						this.$$(combo1Id).setValue(value);
+					// }
+						// console.log(countriesCollection.getItem(value).Name);
+						// countriesCollection.getItem(value).Name
+					// }
+					
 				});
 			}
 			// options: contactsCollection
@@ -97,7 +107,7 @@ export class FormView extends JetView {
 			// 	}
 			// }
 			$init: () => {
-				this.on(this.app, "Combo2Select", (value) => {
+				this.on(this.app, "setValueCombo2", (value) => {
 					// this.$$(combo1Id).config.value = value;
 					this.$$(combo2Id).setValue(value);
 				});
@@ -144,10 +154,17 @@ export class FormView extends JetView {
 			],
 			rules: {
 				Email: (value) => {
-					console.log("test");
+					//если будет несколько @ подряд, то все равно пройдет валидацию
 					const reg = /\S+@\S+\.\S+/;
 					return reg.test(value);
 				}
+			},
+			$init: () => {
+				this.on(this.app, "setFormValue", (value) => {
+					// this.$$(combo1Id).config.value = value;
+					// console.log(this.$$(contactsFormLocalId));
+					this.$$(contactsFormLocalId).setValues(value);
+				});
 			}
 		};
 
