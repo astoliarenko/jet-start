@@ -59,9 +59,7 @@ export default class DataView extends JetView {
 					id: "Name",
 					// header: "Name",
 					header: _("Name"),
-					template: (obj) => {
-						return _(obj.Name);
-					},
+					template: (obj) => _(obj.Name),
 					fillspace: true,
 					editor: "text"
 				},

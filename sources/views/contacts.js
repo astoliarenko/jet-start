@@ -11,10 +11,10 @@ export default class ContactsView extends JetView {
 			localId: сontactsListLocalId,
 			view: "list",
 			template: (obj) => {
-				// return `<span class='webix_icon wxi-${statusesCollection.getItem(obj.Status).Icon} user-list-close'></span>` +
-				return _(statusesCollection.getItem(obj.Status).Name) +
-				": " + obj.Name + " " + obj.Email + ` ${_("from")} ` + countriesCollection.getItem(obj.Country).Name
-				+ "<span class='webix_icon wxi-close user-list-close'></span>";
+				// return `<span class='webix_icon wxi-${statusesCollection.getItem(obj.Status).Icon} user-list-close'></span>
+				return `${_(statusesCollection.getItem(obj.Status).Name)}
+				: ${obj.Name} ${obj.Email} ${_("from")} ${countriesCollection.getItem(obj.Country).Name}
+				<span class='webix_icon wxi-close user-list-close'></span>`;
 			},
 			select: true,
 			onClick: {
@@ -34,7 +34,7 @@ export default class ContactsView extends JetView {
 		};
 		// getContactsForm.bind(this);
 		const ui = {
-			cols: [сontactsList, new FormView(this.app)],
+			cols: [сontactsList, FormView],
 		};
 
 		return ui;
@@ -55,7 +55,7 @@ export default class ContactsView extends JetView {
 		const id = this.getParam("id");
 		const list = this.$$(сontactsListLocalId);
 		const data = contactsCollection.getItem(id);
-		if (id && this.$$(сontactsListLocalId).exists(id)) {
+		if (id && list.exists(id)) {
 			const item = contactsCollection.getItem(id);
 			this.getRoot().queryView("form").setValues(item);
 			list.select(id);
