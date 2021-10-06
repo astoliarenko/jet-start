@@ -23,20 +23,10 @@ export default class ContactsView extends JetView {
 			onClick: {
 				"user-list-close": (e, id) => {
 					contactsCollection.remove(id);
-					// let urlId = this.getParam("id");
-					// if(urlId > id) {
-					// 	//если мы удаляем айтем и есть выбранный айтем, и айди этого выбранного айтема
-					// 	// больше чем айди удаляемого то нужно в урле изменить id--
-					// 	this.show(`/top/contacts?id=${urlId}`);
-					// }
-
-					if (this.getParam("id") === id) {
+					if (this.getParam("id") == id || !contactsCollection.count()) {
 						this.show("/top/contacts");
 						this.app.callEvent(constants.WEBIX_EVENTS.CLEAR_FORM);
 					}
-					// (проверить выбрана ли эта запись)
-					// очистить параметр в url
-					
 					return false;
 				},
 			},
@@ -45,7 +35,6 @@ export default class ContactsView extends JetView {
 					const item = contactsCollection.getItem(id);
 					this.app.callEvent("setFormValue", [item]);
 					this.setParam("id", id, true);
-					// console.dir(item);
 				}
 			}
 		};
