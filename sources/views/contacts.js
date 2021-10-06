@@ -46,23 +46,24 @@ export default class ContactsView extends JetView {
 	}
 	init() {
 		// this.getRoot() = view здесь
-		
+		const list = this.$$(constants.CONTACTS_LIST_VIEW_ID);
+		// console.log(statusesCollection.data.pull);
+		// console.log(contactsCollection.data.pull);
 		webix.promise.all([
 			contactsCollection.waitData,
 			statusesCollection.waitData,
 			countriesCollection.waitData
 		]).then(() => {
-			const list = this.$$(constants.CONTACTS_LIST_VIEW_ID);
-		list.sync(contactsCollection);
-			console.log("all data received");
+			list.sync(contactsCollection);
+			// console.log("all data received");
 			const prevId = this.getParam("id");
 			if (prevId && list.exists(prevId)) {
 				list.select(prevId);
+				this.app.callEvent(constants.WEBIX_EVENTS.SET_FORM_VALUE, [contactsCollection.getItem(prevId)]);
 			} else {
 				const id = list.getFirstId();
 				list.select(id);
 				this.show(`/top/contacts?id=${id}`);
-				// console.log("select");
 			}
 		});
 		this.on(this.app, constants.WEBIX_EVENTS.UNSELECT_LIST_ITEMS, () => {
@@ -79,6 +80,6 @@ export default class ContactsView extends JetView {
 				list.select(id);
 				this.app.callEvent(constants.WEBIX_EVENTS.SET_FORM_VALUE, [item]);
 			});
-		}	
+		}
 	}
 }
