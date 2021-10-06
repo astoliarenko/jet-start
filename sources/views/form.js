@@ -38,8 +38,6 @@ export default class FormView extends JetView {
 			value: _("Clear"),
 			click: () => {
 				const form = this.getRoot();
-				const values = form.getValues();
-				// contactsCollection.updateItem(values.id, values);
 				//анселектнуть все
 				this.app.callEvent(constants.WEBIX_EVENTS.UNSELECT_LIST_ITEMS);
 				form.clear();
@@ -123,9 +121,15 @@ export default class FormView extends JetView {
 
 		return form;
 	}
+	
 	init() {
+		const form = this.$$(constants.CONTACTS_FORM_VIEW_IDS.FORM_ID);
 		this.on(this.app, constants.WEBIX_EVENTS.SET_FORM_VALUE, (value) => {
-			this.$$(constants.CONTACTS_FORM_VIEW_IDS.FORM_ID).setValues(value);
+			form.setValues(value);
+		});
+		this.on(this.app, constants.WEBIX_EVENTS.CLEAR_FORM, () => {
+			form.clear();
+			form.clearValidation();
 		});
 	}
 }

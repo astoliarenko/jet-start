@@ -11,6 +11,7 @@ export default {
 	},
 	"WEBIX_EVENTS" : {
 		"UNSELECT_LIST_ITEMS" : "unselectListItems",
-		"SET_FORM_VALUE" : "setFormValue"
+		"SET_FORM_VALUE" : "setFormValue",
+		"CLEAR_FORM" : "clearFormValue"
 	}
 };
