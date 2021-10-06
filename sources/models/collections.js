@@ -3,13 +3,19 @@ import { statuses } from "./statuses.js";
 import { countries } from "./countries.js";
 
 export const contactsCollection = new webix.DataCollection({
-	data: contacts,
+	url: "http://localhost:8096/api/v1/contacts/",
+	save: "rest->http://localhost:8096/api/v1/contacts/"
+	// data: contacts
 });
 
 export const statusesCollection = new webix.DataCollection({
-	data: statuses,
+	// data: statuses,
+	url: "http://localhost:8096/api/v1/statuses/",
+	save: "rest->http://localhost:8096/api/v1/statuses/"
 });
 
 export const countriesCollection = new webix.DataCollection({
-	data: countries,
+	// data: countries,
+	url: "http://localhost:8096/api/v1/countries/",
+	save: "rest->http://localhost:8096/api/v1/countries/"
 });

@@ -51,7 +51,7 @@ export default class FormView extends JetView {
 			// label: "Contact",
 			localId: constants.CONTACTS_FORM_VIEW_IDS.COUNTRY_COMBO_ID,
 			label: _("Country"),
-			data: countriesCollection,	
+			// data: countriesCollection,	
 			suggest: {
 				data: countriesCollection,
 				body: {
@@ -123,6 +123,8 @@ export default class FormView extends JetView {
 	}
 	
 	init() {
+		// this.$$(constants.CONTACTS_FORM_VIEW_IDS.COUNTRY_COMBO_ID).sync(countriesCollection);
+		// this.$$(constants.CONTACTS_FORM_VIEW_IDS.STATUS_COMBO_ID).sync(statusesCollection);
 		const form = this.$$(constants.CONTACTS_FORM_VIEW_IDS.FORM_ID);
 		this.on(this.app, constants.WEBIX_EVENTS.SET_FORM_VALUE, (value) => {
 			form.setValues(value);
