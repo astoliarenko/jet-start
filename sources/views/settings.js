@@ -1,15 +1,24 @@
 import { JetView } from "webix-jet";
 
+
 export default class SettingsView extends JetView {
 	config() {
+		const param = this.app.getService("locale");
+		const _ = param._;
+		const language = param.getLang();
+		
 		const settingsBtn = {
 			width: 100,
 			view: "segmented",
-			value: "1",
+			value: language,
+			//вэлью задает дефолт состояние по id из options ( en - id: "en")
 			options: [
-				{ id: "1", value: "RU" },
-				{ id: "2", value: "EN" },
+				{ id: "ru", value: _("RU") },
+				{ id: "en", value: _("EN") },
 			],
+			click: () => {
+				param.setLang(this.getRoot().getValue());
+			}
 		};
 		return settingsBtn;
 	}

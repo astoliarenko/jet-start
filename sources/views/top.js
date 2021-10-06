@@ -1,5 +1,6 @@
 import { JetView, plugins } from "webix-jet";
-import menu from "./menu";
+// import menu from "./menu";
+import getMenuView from "./menu";
 
 export default class TopView extends JetView {
 	config() {
@@ -17,7 +18,8 @@ export default class TopView extends JetView {
 			css: "app_layout",
 			cols: [
 				{
-					rows: [{ css: "webix_shadow_medium", rows: [header, menu] }],
+					// rows: [{ css: "webix_shadow_medium", rows: [header, menu] }],
+					rows: [{ css: "webix_shadow_medium", rows: [header, getMenuView(this.app)] }],
 				},
 				{ type: "wide", rows: [{ $subview: true }] },
 			],

@@ -1,31 +1,28 @@
 import { JetView } from "webix-jet";
-import { countries } from "../models/countries";
-import { statuses } from "../models/statuses";
+import { countriesCollection } from "../models/collections.js";
+import { statusesCollection } from "../models/collections.js";
+import constants from "../constants.js";
 
 export default class DataView extends JetView {
 	config() {
-		const statusesDtLocalId = "statuses-dt";
-		const countriesDtLocalId = "countries-dt";
-    
+		
+		const _ = this.app.getService("locale")._;
+
 		const countriesDt = {
 			// maxWidth: 500,
-			localId: countriesDtLocalId,
+			localId: constants.DATA_VIEW_IDS.COUNTRIES_DT_ID,
 			view: "datatable",
 			hover: "myHover",
-			data: countries,
 			editable: true,
 			select: true,
 			scrollX: false,
 			columns: [
-				// {
-				//   id: "id",
-				//   header: "#",
-				//   width: 50,
-				// },
 				{
 					id: "Name",
-					header: "Country",
+					// header: "Country",
+					header: _("Country"),
 					fillspace: true,
+					editor: "text"
 				},
 				{
 					id: "delete",
@@ -37,17 +34,16 @@ export default class DataView extends JetView {
 			],
 			onClick: {
 				removeItemDatatable: function (e, id) {
-					this.remove(id);
+					countriesCollection.remove(id);
 					return false;
 				},
 			},
 		};
 
 		const statusesDt = {
-			localId: statusesDtLocalId,
+			localId: constants.DATA_VIEW_IDS.STATUSES_DT_ID,
 			view: "datatable",
 			hover: "myHover",
-			data: statuses,
 			editable: true,
 			select: true,
 			scrollX: false,
@@ -59,12 +55,16 @@ export default class DataView extends JetView {
 				},
 				{
 					id: "Name",
-					header: "Name",
+					// header: "Name",
+					header: _("Name"),
+					template: (obj) => _(obj.Name),
 					fillspace: true,
+					editor: "text"
 				},
 				{
 					id: "Icon",
-					header: "Icon",
+					// header: "Icon",
+					header: _("Icon"),
 					template: "<span class ='webix_icon wxi-#Icon#'></span>",
 				},
 				{
@@ -77,7 +77,7 @@ export default class DataView extends JetView {
 			],
 			onClick: {
 				removeItemDatatable: function (e, id) {
-					this.remove(id);
+					statusesCollection.remove(id);
 					return false;
 				},
 			},
@@ -86,32 +86,42 @@ export default class DataView extends JetView {
 		const dataMultiview = {
 			rows: [
 				{
-					view: "segmented",
-					value: countriesDtLocalId,
-					multiview: true,
-					options: [
-						{ value: "Country", 
-							id: countriesDtLocalId
+					cols: [
+						{
+							view: "tabbar",
+							maxWidth: 300,
+							value: constants.DATA_VIEW_IDS.COUNTRIES_DT_ID,
+							options: [
+								{ value: _("Country"), 
+									id: constants.DATA_VIEW_IDS.COUNTRIES_DT_ID
+								},
+								{ value: _("Status"), 
+									id: constants.DATA_VIEW_IDS.STATUSES_DT_ID
+								},
+							],
+							on: {
+								onChange: (newId) => {
+									this.$$(newId).show();
+									// console.log("ON");
+								}
+							}
 						},
-						{ value: "Status", 
-							id: statusesDtLocalId
-					 },
-					],
-					on: {
-						onChange: (newId) => {
-							this.$$(newId).show();
-						}
-					}
+						{}
+					]
 				},
 				{
-					cells: [countriesDt, statusesDt],
+					cells: [
+						countriesDt,
+						statusesDt
+					],
 				},
 			],
 		};
 
 		return dataMultiview;
 	}
-	// init(view) {
-	//   console.log(view);
-	// }
+	init() {
+		this.$$(constants.DATA_VIEW_IDS.STATUSES_DT_ID).sync(statusesCollection);
+		this.$$(constants.DATA_VIEW_IDS.COUNTRIES_DT_ID).sync(countriesCollection);
+	}
 }

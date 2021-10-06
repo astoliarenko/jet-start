@@ -1,3 +1,6 @@
+:root {
+    --color-hover: #F4F5F9;
+}
 .webixappstart{
     opacity:0;
 }
@@ -55,4 +58,11 @@
 .app_menu .webix_icon{
 	font-size:20px;
 	vertical-align:middle;
+}
+.user-list-close {
+    float: right;
+    margin-top: 5px;
+}
+.myHover {
+    background-color: var(--color-hover);
 }
