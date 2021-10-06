@@ -23,14 +23,12 @@ export default class ContactsView extends JetView {
 			onClick: {
 				"user-list-close": (e, id) => {
 					contactsCollection.remove(id);
-					let urlId = this.getParam("id");
-					console.log(urlId);
-					console.log(this.$$(constants.CONTACTS_LIST_VIEW_ID).getSelectedId());
-					if(urlId > id) {
-						//если мы удаляем айтем и есть выбранный айтем, и айди этого выбранного айтема
-						// больше чем айди удаляемого то нужно в урле изменить id--
-						this.show(`/top/contacts?id=${--urlId}`);
-					}
+					// let urlId = this.getParam("id");
+					// if(urlId > id) {
+					// 	//если мы удаляем айтем и есть выбранный айтем, и айди этого выбранного айтема
+					// 	// больше чем айди удаляемого то нужно в урле изменить id--
+					// 	this.show(`/top/contacts?id=${urlId}`);
+					// }
 
 					if (this.getParam("id") === id) {
 						this.show("/top/contacts");
