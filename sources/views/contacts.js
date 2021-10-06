@@ -47,6 +47,7 @@ export default class ContactsView extends JetView {
 	init() {
 		// this.getRoot() = view здесь
 		const list = this.$$(constants.CONTACTS_LIST_VIEW_ID);
+		// list.sync(contactsCollection);
 		// console.log(statusesCollection.data.pull);
 		// console.log(contactsCollection.data.pull);
 		webix.promise.all([
